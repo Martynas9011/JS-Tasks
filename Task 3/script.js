@@ -12,3 +12,39 @@ turėti bent minimalų stilių ir būti responsive;
 -------------------------------------------------------------------------- */
 
 const ENDPOINT = 'https://api.github.com/users';
+
+let users;
+
+function showUsersButton() {
+
+
+    fetch("https://api.github.com/users")
+        .then(res => {
+            console.log(res);
+            return res.json();
+        })
+        .then(data => {
+            console.log(data);
+            users = data;
+            showUsers();
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+function showUsers() {
+    document.getElementById("message").hidden = true;
+    const userContainer = document.getElementById("output");
+    for (const user of users) {
+        const userElement = document.createElement("div");
+        userElement.style.border = "1px solid black";
+        userElement.style.textAlign = "center";
+        userElement.style.marginBottom = "5px";
+        userElement.style.fontSize = "28px";
+        userElement.innerHTML = `
+        vardas: ${user.login} <br>
+        avataras: <img src="${user.avatar_url}" style="width:30px"/>
+        `;
+        userContainer.append(userElement);
+    }
+}
